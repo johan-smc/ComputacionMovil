@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Fibinacci</string>
+    <string name="image_of_fibonacci">Image of fibonacci.</string>
+    <string name="calcular">Calcular!</string>
 </resources>
