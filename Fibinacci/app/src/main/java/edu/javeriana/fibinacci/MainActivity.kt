@@ -1,16 +1,16 @@
 package edu.javeriana.fibinacci
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
-import android.widget.TextView
+import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
-    private val fibonacci = mutableListOf(0, 1)
-    // private val FIBONACCI_IMG_URL = "https://cdn.images.express.co.uk/img/dynamic/109/590x/fibonaci.jpg"
-    private lateinit var sequenceTextView: TextView
     private lateinit var calculateButton: Button
+    private lateinit var sequenceNumberInput: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,22 +18,17 @@ class MainActivity : AppCompatActivity() {
         setupUi()
     }
 
-    private fun populateSequence() {
-        this.sequenceTextView.text = fibonacci.joinToString()
-    }
-
-    private fun addNextElementToSequence() {
-        val lastIdx = this.fibonacci.lastIndex
-        val t1 = this.fibonacci[lastIdx]
-        val t2 = this.fibonacci[lastIdx - 1]
-        this.fibonacci += t1 + t2
-        this.populateSequence()
+    private fun getSequenceNumber(): Int {
+        return this.sequenceNumberInput.text.toString().toInt()
     }
 
     private fun setupUi() {
+        this.sequenceNumberInput = findViewById(R.id.edit_text_sequence_number)
         this.calculateButton = findViewById(R.id.button_calculate)
-        this.sequenceTextView = findViewById(R.id.text_sequence)
-        this.calculateButton.setOnClickListener { this.addNextElementToSequence() }
-        this.populateSequence()
+        this.calculateButton.setOnClickListener {
+            val intent = Intent(this, SequenceList::class.java)
+            intent.putExtra("SequenceNumber", this.getSequenceNumber())
+            startActivity(intent)
+        }
     }
 }

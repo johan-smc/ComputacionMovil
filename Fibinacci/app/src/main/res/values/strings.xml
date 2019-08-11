@@ -2,4 +2,6 @@
     <string name="app_name">Fibinacci</string>
     <string name="image_of_fibonacci">Image of fibonacci.</string>
     <string name="calcular">Calcular!</string>
+    <string name="sequinece_number">Sequinece number.</string>
+    <string name="sequence_number">Sequence number</string>
 </resources>

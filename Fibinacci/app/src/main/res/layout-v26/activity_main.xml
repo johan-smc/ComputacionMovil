@@ -25,7 +25,7 @@
         android:id="@+id/edit_text_sequence_number"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/sequence_number"
+        android:hint="@string/sequinece_number"
         android:importantForAutofill="no"
         android:inputType="number" />
 </LinearLayout>
