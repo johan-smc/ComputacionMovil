@@ -13,12 +13,20 @@ class MainActivity : AppCompatActivity() {
         setupButtons()
     }
 
-    fun setupButtons() {
+    private fun setupButtons() {
         contactsButton.setOnClickListener { goToContactListActivity() }
+        locationButton.setOnClickListener { goToLocationActivity() }
     }
 
-    fun goToContactListActivity() {
+    private fun goToContactListActivity() {
         val goToContactListIntent = Intent(this, ContactList::class.java)
         startActivity(goToContactListIntent)
     }
+
+    private fun goToLocationActivity() {
+        val locationIntent = Intent(this, Location::class.java)
+        startActivity(locationIntent)
+    }
+
+
 }

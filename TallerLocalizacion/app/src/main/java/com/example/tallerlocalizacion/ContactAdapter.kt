@@ -32,8 +32,8 @@ class ContactAdapter(private val context: Context, private val items: List<Conta
         return 0
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getView(position: Int, contView: View?, parent: ViewGroup): View {
+        var convertView = contView
         val holder: ViewHolder
 
         if (convertView == null) {

@@ -63,7 +63,7 @@ class ContactList : AppCompatActivity() {
         }
     }
 
-    fun loadContacts() {
+    private fun loadContacts() {
         val contacts = mutableListOf<Contact>()
 
         val phones = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC")

@@ -5,4 +5,10 @@
     <string name="button_to_see_location">Button to see location.</string>
     <string name="name">Name</string>
     <string name="phone">phone</string>
+    <string name="latitud">Latitud:</string>
+    <string name="longitud">Longitud:</string>
+    <string name="altitud">Altitud:</string>
+    <string name="distancia_a_plaza_de_bolivar">Distancia a Plaza de Bolivar:</string>
+    <string name="_0_0">0.0</string>
+    <string name="ubicaciones_guardadas">Ubicaciones Guardadas</string>
 </resources>
