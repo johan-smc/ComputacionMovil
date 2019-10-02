@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,6 +20,8 @@ class Location : AppCompatActivity() {
     private lateinit var locationCallback: LocationCallback
     private val kRequestCode = 1000
     private val plazaLocation = Location("")
+    private val locations = mutableListOf<Location?>()
+    private var lastLocation: Location? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +29,7 @@ class Location : AppCompatActivity() {
         setContentView(R.layout.activity_location)
         plazaLocation.latitude = 4.5981
         plazaLocation.longitude = 74.0760
+        setupSaveButton()
         checkPermissions()
 
 
@@ -67,6 +71,16 @@ class Location : AppCompatActivity() {
         }
     }
 
+    private fun setupSaveButton() {
+        saveButton.setOnClickListener {
+            locations.add(lastLocation)
+            val currString = "{N${lastLocation?.latitude}, W${lastLocation?.longitude}}"
+            val currTextView = TextView(this)
+            currTextView.text = currString
+            locationListView.addView(currTextView)
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -87,6 +101,7 @@ class Location : AppCompatActivity() {
         locationCallback = object :LocationCallback() {
             override fun onLocationResult(p0: LocationResult?) {
                 val location = p0?.lastLocation
+                lastLocation = location
                 Log.d("LOCATION", "CAAAALLLLBACCCCKKK")
                 latitudTextField.text = location?.latitude.toString()
                 longitudTextField.text = location?.longitude.toString()
@@ -104,6 +119,17 @@ class Location : AppCompatActivity() {
         locationRequest.interval = 5000
         locationRequest.fastestInterval = 3000
         locationRequest.smallestDisplacement = 10f
+
+    }
+
+    private fun populateList() {
+        var totalString = ""
+        locations.forEach {
+            val currString = "{N${it?.latitude}, W${it?.longitude}}"
+            val currTextView = TextView(this)
+            currTextView.text = currString
+            locationListView.addView(currTextView)
+        }
 
     }
 }

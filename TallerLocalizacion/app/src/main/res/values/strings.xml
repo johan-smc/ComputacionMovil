@@ -11,4 +11,5 @@
     <string name="distancia_a_plaza_de_bolivar">Distancia a Plaza de Bolivar:</string>
     <string name="_0_0">0.0</string>
     <string name="ubicaciones_guardadas">Ubicaciones Guardadas</string>
+    <string name="guardar">GUARDAR</string>
 </resources>
