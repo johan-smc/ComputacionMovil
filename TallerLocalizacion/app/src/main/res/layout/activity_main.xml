@@ -6,46 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageButton
-        android:id="@+id/contactsButton"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="101dp"
-        android:layout_marginTop="32dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraButton"
-        android:contentDescription="@string/button_to_see_contacts"
-        app:srcCompat="@drawable/contacts" />
-
-    <ImageButton
-        android:id="@+id/cameraButton"
-        android:layout_width="0dp"
-        android:layout_height="111dp"
-        android:layout_marginTop="140dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/button_to_take_picture"
-        app:srcCompat="@drawable/camera" />
-
-    <ImageButton
-        android:id="@+id/locationButton"
-        android:layout_width="0dp"
-        android:layout_height="111dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="140dp"
-        android:contentDescription="@string/button_to_see_location"
-        android:scaleType="fitCenter"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactsButton"
-        app:layout_constraintVertical_bias="0.104"
-        app:srcCompat="@drawable/location_pin" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/locationButton"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:contentDescription="@string/button_to_see_location"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/location_pin" />
+
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:contentDescription="@string/button_to_take_picture"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/camera" />
+
+        <ImageButton
+            android:id="@+id/contactsButton"
+            android:layout_width="match_parent"
+            android:layout_height="101dp"
+            android:contentDescription="@string/button_to_see_contacts"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/contacts" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

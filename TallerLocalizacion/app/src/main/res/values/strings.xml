@@ -3,4 +3,6 @@
     <string name="button_to_take_picture">Button to take pictire.</string>
     <string name="button_to_see_contacts">button to see contacts.</string>
     <string name="button_to_see_location">Button to see location.</string>
+    <string name="name">Name</string>
+    <string name="phone">phone</string>
 </resources>
