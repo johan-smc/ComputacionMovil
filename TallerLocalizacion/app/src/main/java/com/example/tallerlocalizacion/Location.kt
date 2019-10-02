@@ -5,20 +5,19 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Environment
 import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_location.*
-import android.content.Context.MODE_PRIVATE
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import java.io.File
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 
 
@@ -31,6 +30,7 @@ class Location : AppCompatActivity() {
     private val plazaLocation = Location("")
     private val locations = mutableListOf<Location?>()
     private var lastLocation: Location? = null
+    private val permissionsRequestStorage = 111
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +87,13 @@ class Location : AppCompatActivity() {
             val currTextView = TextView(this)
             currTextView.text = currString
             locationListView.addView(currTextView)
-            create(this, "$currString,\n")
+            if( isExternalStorageWritable() )
+            {
+
+                val isFileCreate = create(this, "$currString,\n")
+                Log.d("STORAGE_JSON", isFileCreate.toString())
+            }
+
         }
     }
 
@@ -124,21 +130,39 @@ class Location : AppCompatActivity() {
     }
 
     private fun create(context: Context, jsonString: String?): Boolean {
-        val FILENAME = "storage.json"
+        askPermissionExternalStorage()
+        val root = Environment.getExternalStorageDirectory()
+        val myDir = File("${root.absolutePath}/saved_files")
+        if (!myDir.exists()) {
+            var res = myDir.mkdirs()
+            Log.d("STORAGE_JSON", "create directory $res")
+        }
+        val fname = "storage.json"
+        val file = File(myDir, fname)
+        Log.d("STORE_JSON", file.absolutePath)
+
+
         return try {
-            val fos = context.openFileOutput(FILENAME, Context.MODE_APPEND)
+            val fos =  FileOutputStream(file, true)
             if (jsonString != null) {
                 fos.write(jsonString.toByteArray())
             }
             fos.close()
             true
         } catch (fileNotFound: FileNotFoundException) {
+            Log.d("STORAGE_JSON", fileNotFound.toString())
             false
         } catch (ioException: IOException) {
+            Log.d("STORAGE_JSON", ioException.toString())
             false
         }
 
     }
+
+    fun isExternalStorageWritable(): Boolean {
+        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
+    }
+
 
     private fun buildLocationRequest() {
         locationRequest = LocationRequest()
@@ -147,5 +171,31 @@ class Location : AppCompatActivity() {
         locationRequest.fastestInterval = 3000
         locationRequest.smallestDisplacement = 10f
 
+    }
+    private fun askPermissionExternalStorage() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            ) {
+                // Show an explanation to the user *asynchronouslyÂ  Â
+                Toast.makeText(
+                    this,
+                    "Se necesita el permiso para poder obtener imagenes de la galeria!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            // Request the permission.
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                permissionsRequestStorage
+            )
+        }
     }
 }
