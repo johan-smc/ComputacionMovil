@@ -2,6 +2,7 @@ package com.example.tallerlocalizacion
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -17,11 +18,14 @@ class Location : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private val kRequestCode = 1000
+    private val plazaLocation = Location("")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)
+        plazaLocation.latitude = 4.5981
+        plazaLocation.longitude = 74.0760
         checkPermissions()
 
 
@@ -87,6 +91,8 @@ class Location : AppCompatActivity() {
                 latitudTextField.text = location?.latitude.toString()
                 longitudTextField.text = location?.longitude.toString()
                 altitudTextField.text = location?.altitude.toString()
+                val ditanceText = "${plazaLocation.distanceTo(location)} meters"
+                distanciaPlazaTextField.text = ditanceText
 
             }
         }
