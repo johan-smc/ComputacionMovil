@@ -1,6 +1,7 @@
 package com.example.tallerlocalizacion
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -12,6 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_location.*
+import android.content.Context.MODE_PRIVATE
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import java.io.FileNotFoundException
+import java.io.IOException
+
 
 class Location : AppCompatActivity() {
 
@@ -78,6 +87,7 @@ class Location : AppCompatActivity() {
             val currTextView = TextView(this)
             currTextView.text = currString
             locationListView.addView(currTextView)
+            create(this, "$currString,\n")
         }
     }
 
@@ -106,11 +116,28 @@ class Location : AppCompatActivity() {
                 latitudTextField.text = location?.latitude.toString()
                 longitudTextField.text = location?.longitude.toString()
                 altitudTextField.text = location?.altitude.toString()
-                val ditanceText = "${plazaLocation.distanceTo(location)} meters"
+                val ditanceText = "${plazaLocation.distanceTo(location)}"
                 distanciaPlazaTextField.text = ditanceText
 
             }
         }
+    }
+
+    private fun create(context: Context, jsonString: String?): Boolean {
+        val FILENAME = "storage.json"
+        return try {
+            val fos = context.openFileOutput(FILENAME, Context.MODE_APPEND)
+            if (jsonString != null) {
+                fos.write(jsonString.toByteArray())
+            }
+            fos.close()
+            true
+        } catch (fileNotFound: FileNotFoundException) {
+            false
+        } catch (ioException: IOException) {
+            false
+        }
+
     }
 
     private fun buildLocationRequest() {
@@ -119,17 +146,6 @@ class Location : AppCompatActivity() {
         locationRequest.interval = 5000
         locationRequest.fastestInterval = 3000
         locationRequest.smallestDisplacement = 10f
-
-    }
-
-    private fun populateList() {
-        var totalString = ""
-        locations.forEach {
-            val currString = "{N${it?.latitude}, W${it?.longitude}}"
-            val currTextView = TextView(this)
-            currTextView.text = currString
-            locationListView.addView(currTextView)
-        }
 
     }
 }
