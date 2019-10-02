@@ -1,26 +1,25 @@
 package com.example.tallerlocalizacion
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_camera.*
-import android.app.Activity
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 
 class Camera : AppCompatActivity() {
     private val permissionsRequestStorage = 10
     private val galleryRequestCode = 13
+    private val imageCaptureCode = 12
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +29,11 @@ class Camera : AppCompatActivity() {
 
     private fun setupButtons() {
         buttonStorage.setOnClickListener { getImageFromStorage() }
+        buttonCamera.setOnClickListener { getImageFromCamera() }
+    }
+
+    private fun getImageFromCamera() {
+        pickFromCamera()
     }
 
     private fun getImageFromStorage() {
@@ -81,11 +85,25 @@ class Camera : AppCompatActivity() {
     }
 
     private fun pickFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK);
-        intent.type = "image/*";
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        /*
+         // Other choice
+         val intent = Intent(Intent.ACTION_PICK)
+         intent.type = "image/\*"
         val mimeTypes = arrayOf("image/jpeg", "image/png")
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+        */
+
+
+
+
         startActivityForResult(intent, galleryRequestCode)
+    }
+
+
+    private fun pickFromCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, imageCaptureCode)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,6 +114,11 @@ class Camera : AppCompatActivity() {
                     //data.getData returns the content URI for the selected Image
                     val selectedImage = data!!.data
                     imageView.setImageURI(selectedImage)
+                }
+                imageCaptureCode -> {
+                    Log.d("CAPTURE-IMG", "Enter in capture image")
+                    val bp = data!!.extras!!.get("data") as Bitmap
+                    imageView.setImageBitmap(bp)
                 }
             }
     }
