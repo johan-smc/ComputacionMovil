@@ -12,4 +12,7 @@
     <string name="_0_0">0.0</string>
     <string name="ubicaciones_guardadas">Ubicaciones Guardadas</string>
     <string name="guardar">GUARDAR</string>
+    <string name="imagen">Imagen</string>
+    <string name="galeria">Galeria</string>
+    <string name="camara">Camara</string>
 </resources>

@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupButtons() {
         contactsButton.setOnClickListener { goToContactListActivity() }
         locationButton.setOnClickListener { goToLocationActivity() }
+        cameraButton.setOnClickListener { goToCameraActivity() }
     }
 
     private fun goToContactListActivity() {
@@ -26,6 +27,11 @@ class MainActivity : AppCompatActivity() {
     private fun goToLocationActivity() {
         val locationIntent = Intent(this, Location::class.java)
         startActivity(locationIntent)
+    }
+
+    private fun goToCameraActivity() {
+        val cameraIntent = Intent(this, Camera::class.java)
+        startActivity(cameraIntent)
     }
 
 
